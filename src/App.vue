@@ -1,11 +1,14 @@
-<script setup>
-import Search from './components/Search.vue'
-</script>
-
 <template>
-  <Search />
+  <div class="bg-gray-100 h-screen flex">
+    <Navigation />
+    <router-view></router-view>
+  </div>
 </template>
 
-<style scoped>
+<script>
+import Navigation from './components/Navigation.vue';
 
-</style>
+export default {
+  components: { Navigation }
+}
+</script>
