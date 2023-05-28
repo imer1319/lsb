@@ -11,8 +11,8 @@
             </div>
             <div class="flex flex-col items-center flex-1 p-2 space-y-4">
                 <router-link v-for="ruta in rutas" :key="ruta" :to="ruta.route"
-                    class="p-1 transition-colors rounded-lg shadow-md hover:bg-orange-700 hover:text-white"
-                    :class="[route.path === ruta.route ? 'text-white bg-orange-600' : 'text-gray-500 bg-white']">
+                    class="p-1 transition-colors rounded-lg shadow-md hover:bg-turquesa-700 hover:text-white"
+                    :class="[route.path === ruta.route ? 'text-white bg-turquesa-500' : 'text-gray-500 bg-white']">
                     <i :class="ruta.icon"></i>
                 </router-link>
             </div>

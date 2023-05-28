@@ -1,37 +1,35 @@
 <template>
 	<div class="flex flex-col items-center">
 		<div class="z-10">
-			<div class="relative">
-				<input type="text"
-					class="p-2 pl-8 w-80 rounded border border-gray-200 bg-gray-200 focus:bg-white focus:outline-none focus:border-transparent"
+			<div @click="showTextarea" class="relative">
+				<i class="fa-solid fa-magnifying-glass absolute left-4 top-5 text-gray-500"></i>
+				<textarea ref="myTextarea" type="text" :rows="currentRows"
+					class="search resize-none overflow-hidden h-auto w-96 focus:bg-white focus:outline-none focus:border-transparent"
 					v-model="busqueda" placeholder="Ingrese las palabras" @keydown.down.prevent="seleccionarSiguiente"
 					@keydown.up.prevent="seleccionarAnterior" @keydown.enter.prevent="completarPalabra"
-					@blur="limpiarSugerencias" />
-				<svg class="w-4 h-4 absolute left-2.5 top-3.5" xmlns="http://www.w3.org/2000/svg" fill="none"
-					viewBox="0 0 24 24" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-						d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-				</svg>
+					@blur="limpiarSugerencias"></textarea>
 			</div>
-			<ul v-if="busqueda.length >= 2 && mostrarSugerencias" class="bg-white border border-gray-100 w-full mt-2">
+			<ul v-if="busqueda.length >= 2 && mostrarSugerencias"
+				class="sugerencias bg-white border border-gray-100 w-full">
 				<li v-for="(sugerencia, index) in sugerencias" :key="sugerencia"
-					class="pl-4 pr-2 py-1 border-b-1 border-orange-100 relative cursor-pointer hover:bg-orange-50 hover:text-orange-900"
-					:class="{ 'bg-orange-50': index === indiceSugerenciaSeleccionada }" @mousedown="autocompletarPalabra(index)">
-                    <i class="fa-solid fa-magnifying-glass mr-4"></i>
+					class="pl-4 pr-2 py-1 border-b-1 border-blue-100 relative cursor-pointer hover:bg-blue-50 hover:text-blue-900"
+					:class="{ 'bg-blue-50': index === indiceSugerenciaSeleccionada }"
+					@mousedown="autocompletarPalabra(index)">
+					<i class="fa-solid fa-magnifying-glass mr-4"></i>
 					<b>{{ sugerencia.name }}</b>
 				</li>
 			</ul>
 		</div>
-		<div class="grid grid-cols-6 gap-8 mt-16 absolute px-24 pb-8">
+		<div class="grid grid-cols-4 md:grid-cols-6 gap-8 absolute px-24 pt-24 pb-8">
 			<template v-for="(palabra, index) in palabras" :key="index">
 				<template v-for="(imagen, imagenIndex) in palabra.icon" :key="imagenIndex">
-					<div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-gray-200 pb-1 relative">
+					<div class="cardImage max-w-lg rounded-lg overflow-hidden shadow-lg bg-gray-200 pb-1 relative">
 						<div v-if="palabra.icon.length > 1"
-							class="absolute top-2 right-2 bg-orange-500 h-10 w-10 flex items-center justify-center rounded-full text-lg text-gray-50 font-semibold">
+							class="absolute top-2 right-2 bg-turquesa-500 h-10 w-10 flex items-center justify-center rounded-full text-lg text-gray-50 font-semibold">
 							<span>{{ letras[imagenIndex] }}</span>
 						</div>
 						<img class="w-full shadow-md" :src="imagen" :alt="palabra.name" />
-						<div class="text-center text-orange-600 py-2 font-bold">
+						<div class="text-center text-turquesa-700 py-2 font-bold">
 							<span>{{ palabra.name }}</span>
 						</div>
 					</div>
@@ -55,6 +53,9 @@ export default {
 			indiceSugerenciaSeleccionada: -1,
 			palabras: [],
 			searchResults: [],
+			currentRows: 1,
+			showingTextarea: false,
+			initialHeight: '54px'
 		};
 	},
 	watch: {
@@ -70,6 +71,13 @@ export default {
 			}
 		},
 	},
+	updated() {
+		this.$nextTick(() => {
+			const textarea = this.$el.querySelector('textarea');
+			textarea.style.height = 'auto';
+			textarea.style.height = `${textarea.scrollHeight}px`;
+		});
+	},
 	methods: {
 		obtenerSugerencias() {
 			const palabrasBusqueda = this.busqueda.toLowerCase().split(" ");
@@ -81,12 +89,12 @@ export default {
 		},
 		autocompletarPalabra(index) {
 			this.palabras.push(this.sugerencias[index]);
+			this.mostrarSugerencias = false;
+			this.indiceSugerenciaSeleccionada = -1;
 			this.busqueda = "";
 			this.palabras.forEach((item) => {
 				this.busqueda += item.name.toLowerCase() + " ";
 			});
-			this.mostrarSugerencias = false;
-			this.indiceSugerenciaSeleccionada = -1;
 		},
 		completarPalabra() {
 			if (this.indiceSugerenciaSeleccionada !== -1) {
@@ -160,7 +168,45 @@ export default {
 		},
 		limpiarSugerencias() {
 			this.mostrarSugerencias = false;
+			this.currentRows = 1;
+			this.$refs.myTextarea.style.height = this.initialHeight;
+		},
+		showTextarea() {
+			this.showingTextarea = true;
+			this.$nextTick(() => {
+				const textarea = this.$refs.myTextarea;
+				textarea.focus();
+				textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+				this.currentRows = textarea.value.split('\n').length;
+				textarea.style.height = 'auto';
+				textarea.style.height = `${textarea.scrollHeight}px`;
+			});
 		}
+
 	},
 };
 </script>
+<style scoped>
+.search {
+	background-color: transparent;
+	outline: none;
+	border: 3px solid rgba(255, 255, 255, 0.2);
+	border-radius: 10px;
+	padding: 15px;
+	font-size: 15px;
+	padding-left: 35px;
+	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.08),
+		-3px -2px 3px rgba(255, 255, 255, 0.2),
+		2px 2px 2px rgba(0, 0, 0, 0.08) inset;
+}
+
+.cardImage {
+	border: 3px solid rgba(255, 255, 255, 0.2);
+	border-radius: 10px;
+	background-color: transparent;
+
+	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.08),
+		-3px -2px 3px rgba(255, 255, 255, 0.2),
+		2px 2px 2px rgba(0, 0, 0, 0.08) inset;
+}
+</style>

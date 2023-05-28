@@ -2,23 +2,21 @@
   <div class="flex h-screen antialiased text-gray-900 bg-gray-100 dark:bg-dark dark:text-light">
     <!-- Sidebar -->
     <navigation></navigation>
-    <div class="flex flex-col flex-1">
 
+    <div class="flex flex-col w-full">
       <Header />
-      <div class="flex flex-1">
-        <!-- Main -->
-        <main class="flex justify-center flex-1 px-4">
+      <!-- Main -->
+      <main class="flex justify-center">
 
-          <router-view v-slot="{ Component, route }">
-            <transition name="fade" mode="out-in">
-              <div :key="route.name">
-                <component :is="Component"></component>
-              </div>
-            </transition>
-          </router-view>
+        <router-view v-slot="{ Component, route }">
+          <transition name="fade" mode="out-in">
+            <div :key="route.name">
+              <component :is="Component"></component>
+            </div>
+          </transition>
+        </router-view>
 
-        </main>
-      </div>
+      </main>
     </div>
   </div>
 </template>
