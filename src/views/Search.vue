@@ -1,13 +1,17 @@
 <template>
 	<div class="flex flex-col items-center">
 		<div class="z-10">
-			<div @click="showTextarea" class="relative">
+			<div @click="showTextarea" class="relative flex items-center">
 				<i class="fa-solid fa-magnifying-glass absolute left-4 top-5 text-gray-500"></i>
 				<textarea ref="myTextarea" type="text" :rows="currentRows"
 					class="search resize-none overflow-hidden h-auto w-96 focus:bg-white focus:outline-none focus:border-transparent"
 					v-model="busqueda" placeholder="Ingrese las palabras" @keydown.down.prevent="seleccionarSiguiente"
 					@keydown.up.prevent="seleccionarAnterior" @keydown.enter.prevent="completarPalabra"
 					@blur="limpiarSugerencias"></textarea>
+				<button @click.prevent="clearInput"
+					class="bg-turquesa-500 hover:bg-turquesa-700 ml-4 py-3 px-5 rounded-lg shadow-md">
+					<i class="fa-solid fa-trash text-white"></i>
+				</button>
 			</div>
 			<ul v-if="busqueda.length >= 2 && mostrarSugerencias"
 				class="sugerencias bg-white border border-gray-100 w-full">
@@ -55,7 +59,7 @@ export default {
 			searchResults: [],
 			currentRows: 1,
 			showingTextarea: false,
-			initialHeight: '54px'
+			initialHeight: '53px'
 		};
 	},
 	watch: {
@@ -181,6 +185,10 @@ export default {
 				textarea.style.height = 'auto';
 				textarea.style.height = `${textarea.scrollHeight}px`;
 			});
+		},
+		clearInput() {
+			this.busqueda = ''
+			this.palabras = []
 		}
 
 	},
@@ -188,12 +196,12 @@ export default {
 </script>
 <style scoped>
 .search {
-	background-color: transparent;
 	outline: none;
 	border: 3px solid rgba(255, 255, 255, 0.2);
 	border-radius: 10px;
 	padding: 15px;
 	font-size: 15px;
+	height: 53px;
 	padding-left: 35px;
 	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.08),
 		-3px -2px 3px rgba(255, 255, 255, 0.2),
