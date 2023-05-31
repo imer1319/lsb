@@ -6,7 +6,7 @@
     <div class="flex flex-col w-full">
       <Header />
       <!-- Main -->
-      <main class="flex justify-center">
+      <main class="mx-24">
 
         <router-view v-slot="{ Component, route }">
           <transition name="fade" mode="out-in">

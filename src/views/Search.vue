@@ -1,6 +1,6 @@
 <template>
-	<div class="flex flex-col items-center">
-		<div class="z-10">
+	<div class="flex items-center">
+		<div class="z-10 mx-auto">
 			<div @click="showTextarea" class="relative flex items-center">
 				<i class="fa-solid fa-magnifying-glass absolute left-4 top-5 text-gray-500"></i>
 				<textarea ref="myTextarea" type="text" :rows="currentRows"
@@ -24,7 +24,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="grid grid-cols-4 md:grid-cols-6 gap-8 absolute px-24 pt-24 pb-8">
+		<div class="grid grid-cols-4 md:grid-cols-6 gap-8 absolute top-36 px-4 pb-8">
 			<template v-for="(palabra, index) in palabras" :key="index">
 				<template v-for="(imagen, imagenIndex) in palabra.icon" :key="imagenIndex">
 					<div class="cardImage max-w-lg rounded-lg overflow-hidden shadow-lg bg-gray-200 pb-1 relative">

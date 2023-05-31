@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from './views/Home.vue';
 import Search from './views/Search.vue';
 import Teclado from './views/Teclado.vue';
-import Aprendizaje from './views/Aprendizaje.vue';
+import Modulos from './views/Modulos.vue';
+import Modulo from './views/Modulo.vue';
 
 const routes = [
   {
@@ -21,10 +22,16 @@ const routes = [
     component: Teclado
   },
   {
-    path: '/aprendizaje',
-    name: 'Aprendizaje',
-    component: Aprendizaje
-  }
+    path: '/modulos',
+    name: 'Modulos',
+    component: Modulos
+  },
+  {
+    path: '/modulos/:categoria',
+    name: 'Modulo',
+    component: Modulo,
+    props: true
+  },
 ];
 
 const router = createRouter({

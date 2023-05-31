@@ -45,7 +45,7 @@
             </button>
             <button
                 class="h-16 min-w-[150px] m-2 text-white rounded-lg overflow-hidden outline-none text-uppercase bg-red-500 hover:bg-red-700 font-semibold"
-                @click.prevent="letters = []">
+                @click.prevent="limpiar()">
                 <i class="fa-solid fa-trash text-white"></i>
                 Limpiar
             </button>
@@ -104,7 +104,6 @@ export default {
             }
 
             this.lineas = this.dividirCadena(this.letters.join(''));
-            console.log(this.letters.join(''));
         },
         dividirCadena(cadena) {
             const palabras = cadena.split(" ");
@@ -112,9 +111,8 @@ export default {
             let grupoActual = [];
 
             palabras.forEach((palabra) => {
-                if (
-                    grupoActual.join("").length + palabra.length + grupoActual.length <= 30
-                ) {
+                if (grupoActual.join("").length + palabra.length + grupoActual.length <= 30
+) {
                     grupoActual = grupoActual.concat(Array.from(palabra));
                     if (grupoActual.length < 30) {
                         grupoActual.push(" ");
@@ -127,9 +125,7 @@ export default {
                     }
                 }
             });
-
             grupos.push(grupoActual);
-
             return grupos;
         },
         handleKeyUp(event) {
@@ -140,6 +136,7 @@ export default {
         },
         disp(letter) {
             this.letters.push(letter);
+            this.lineas = this.dividirCadena(this.letters.join(''));
         },
         getImagePath(character) {
             if (character == ' ') {
@@ -150,8 +147,14 @@ export default {
         borrarUltimoCaracter() {
             if (this.letters.length > 0) {
                 this.letters.pop();
+                this.lineas = this.dividirCadena(this.letters.join(''));
+
             }
         },
+        limpiar() {
+            this.lineas = []
+            this.letters = []
+        }
     }
 };
 </script>

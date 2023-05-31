@@ -30,7 +30,7 @@ export default {
                 { route: '/', icon: 'fa-solid fa-house p-2' },
                 { route: '/buscador', icon: 'fa-solid fa-magnifying-glass p-2' },
                 { route: '/teclado', icon: 'fa-solid fa-keyboard p-2' },
-                { route: '/aprendizaje', icon: 'fa-solid fa-book p-2' },
+                { route: '/modulos', icon: 'fa-solid fa-book p-2' },
             ]
         }
     }
