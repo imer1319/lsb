@@ -1,7 +1,7 @@
 <template>
-    <div class="w-[900px] mx-auto rounded-lg">
+    <div class="w-[1000px] mx-auto rounded-lg">
         <div class="image-container h-[260px] mb-[20px] select-none overflow-y-scroll" ref="imageContainer">
-            <div class=" flex" v-for="(linea, index) in lineas" :key="index">
+            <div class=" flex flex-wrap" v-for="(linea, index) in lineas" :key="index">
                 <div class="w-[6%] h-20 flex flex-wrap" v-for="image in linea" :key="image">
                     <img :src="getImagePath(image)" :alt="image">
                 </div>
@@ -109,23 +109,29 @@ export default {
             const palabras = cadena.split(" ");
             const grupos = [];
             let grupoActual = [];
-
             palabras.forEach((palabra) => {
-                if (grupoActual.join("").length + palabra.length + grupoActual.length <= 30
-) {
+                if (grupoActual.join("").length + palabra.length <= 15) {
                     grupoActual = grupoActual.concat(Array.from(palabra));
-                    if (grupoActual.length < 30) {
+                    if (grupoActual.length < 15) {
                         grupoActual.push(" ");
                     }
                 } else {
                     grupos.push(grupoActual);
                     grupoActual = Array.from(palabra);
-                    if (grupoActual.length < 30) {
+                    if (grupoActual.length < 15) {
                         grupoActual.push(" ");
                     }
                 }
             });
             grupos.push(grupoActual);
+            return grupos;
+        },
+        cortarPalabra(palabra) {
+            var grupos = [];
+            while (palabra.length > 0) {
+                grupos.push(palabra.substring(0, 15));
+                palabra = palabra.substring(15);
+            }
             return grupos;
         },
         handleKeyUp(event) {
@@ -140,7 +146,7 @@ export default {
         },
         getImagePath(character) {
             if (character == ' ') {
-                return '/remove/espacio.jpg';
+                return '/remove/espacio.png';
             }
             return `/remove/${character}.png`;
         },
