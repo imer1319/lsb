@@ -28,14 +28,5 @@ export default {
     Navigation,
     Header
   },
-  data() {
-    return {
-      isSidebarOpen: true,
-      currentSidebarTab: null,
-      isSettingsPanelOpen: false,
-      isSubHeaderOpen: false,
-      isOpen: false
-    }
-  }
 }
 </script>

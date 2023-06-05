@@ -27,7 +27,7 @@ const routes = [
     component: Modulos
   },
   {
-    path: '/modulos/:categoria',
+    path: '/modulos/:id',
     name: 'Modulo',
     component: Modulo,
     props: true
@@ -36,7 +36,7 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
 });
 
 export default router;

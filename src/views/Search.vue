@@ -189,8 +189,18 @@ export default {
 		clearInput() {
 			this.busqueda = ''
 			this.palabras = []
-		}
-
+		},
+		// rutaImage() {
+		// 	if (this.categoria < 21) {
+		// 		return '/modulo_1/'
+		// 	} else if (this.categoria > 20 && this.categoria < 42) {
+		// 		return '/modulo_2/'
+		// 	} else if (this.categoria > 41 && this.categoria < 51) {
+		// 		return '/modulo_3/'
+		// 	} else {
+		// 		return '/modulo_4/'
+		// 	}
+		// },
 	},
 };
 </script>

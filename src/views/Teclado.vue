@@ -1,62 +1,76 @@
 <template>
-    <div class="w-[1000px] mx-auto rounded-lg">
-        <div class="image-container h-[260px] mb-[20px] select-none overflow-y-scroll" ref="imageContainer">
-            <div class=" flex flex-wrap" v-for="(linea, index) in lineas" :key="index">
-                <div class="w-[6%] h-20 flex flex-wrap" v-for="image in linea" :key="image">
-                    <img :src="getImagePath(image)" :alt="image">
+    <div class="w-[1000px] mx-auto rounded-lg pb-12">
+        <div class="flex justify-center mb-2">
+            <button @click.prevent="showTeclas = !showTeclas"
+                class="px-3 py-2 bg-turquesa-500 hover:bg-turquesa-700 text-white rounded-md outline-none">
+                <i :class="showTeclas ? 'fa-solid fa-eye' : 'fa-regular fa-eye-slash'"></i>
+            </button>
+        </div>
+        <div class="image-container mb-[20px] p-2 select-none overflow-hidden"
+            :class="showTeclas ? 'h-[260px]' : 'h-[460px]'">
+            <div class="overflow-y-auto h-full" ref="imageContainer">
+                <div class="flex flex-wrap" v-for="(linea, index) in lineas" :key="index">
+                    <div class="w-16 h-20 flex flex-wrap" v-for="image in linea" :key="image">
+                        <img :src="getImagePath(image)" :alt="image">
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="keys flex justify-center">
-            <button
-                class="relative h-16 min-w-[70px] m-2 rounded-lg overflow-hidden outline-none text-uppercase bg-violet-500 hover:bg-violet-700"
-                v-for="numero in numeros" @click.prevent="disp(numero)">
-                <img :src="`/remove/${numero}.png`" alt="" class="w-full h-full">
-                <span class="absolute bottom-0 right-1 text-white font-semibold">{{ numero }}</span>
-            </button>
-        </div>
-        <div class="keys flex justify-center">
-            <button
-                class="relative h-16 min-w-[70px] m-2 rounded-lg overflow-hidden outline-none text-uppercase bg-cyan-500 hover:bg-cyan-700"
-                v-for="key1 in keys1" @click.prevent="disp(key1)">
-                <img :src="`/remove/${key1}.png`" alt="" class="w-full h-full">
-                <span class="absolute bottom-0 right-1 text-white font-semibold">{{ key1 }}</span>
-            </button>
-            <button
-                class="h-16 min-w-[100px] m-2 text-white rounded-lg overflow-hidden outline-none text-uppercase bg-purple-500 hover:bg-purple-700 font-semibold"
-                @click.prevent="borrarUltimoCaracter">
-                Borrar
-            </button>
-        </div>
-        <div class="keys flex justify-center">
-            <button
-                class="relative h-16 min-w-[70px] m-2 rounded-lg overflow-hidden outline-none text-uppercase bg-cyan-500 hover:bg-cyan-700"
-                v-for="key2 in keys2" @click.prevent="disp(key2)">
-                <img :src="`/remove/${key2}.png`" alt="" class="w-full h-full">
-                <span class="absolute bottom-0 right-1 text-white font-semibold">{{ key2 }}</span>
-            </button>
-        </div>
-        <div class="keys flex justify-center">
-            <button
-                class="relative h-16 min-w-[70px] m-2 rounded-lg overflow-hidden outline-none text-uppercase bg-cyan-500 hover:bg-cyan-700"
-                v-for="key3 in keys3" @click.prevent="disp(key3)">
-                <img :src="`/remove/${key3}.png`" alt="" class="w-full h-full">
-                <span class="absolute bottom-0 right-1 text-white font-semibold">{{ key3 }}</span>
-            </button>
-            <button
-                class="h-16 min-w-[150px] m-2 text-white rounded-lg overflow-hidden outline-none text-uppercase bg-red-500 hover:bg-red-700 font-semibold"
-                @click.prevent="limpiar()">
-                <i class="fa-solid fa-trash text-white"></i>
-                Limpiar
-            </button>
-        </div>
-        <div class="keys flex justify-center">
-            <button
-                class="h-16 min-w-[450px] m-2 text-white rounded-lg overflow-hidden outline-none text-uppercase bg-blue-500 hover:bg-blue-700 font-semibold"
-                @click.prevent="disp(' ')">
-                Espacio
-            </button>
-        </div>
+
+        <transition name="fade" mode="out-in">
+            <div v-if="showTeclas">
+                <div class="keys flex justify-center">
+                    <button :id="numero"
+                        class="cardImages relative h-16 min-w-[70px] m-2 rounded-lg overflow-hidden outline-none text-uppercase bg-violet-500 hover:bg-violet-900"
+                        v-for="numero in numeros" @click.prevent="disp(numero)">
+                        <img :src="`/remove/${numero}.png`" alt="" class="w-full h-full">
+                        <span class="absolute bottom-0 right-1 text-white font-semibold text-lg">{{ numero }}</span>
+                    </button>
+                </div>
+                <div class="keys flex justify-center">
+                    <button :id="key1"
+                        class="cardImages relative h-16 min-w-[70px] m-2 rounded-lg overflow-hidden outline-none text-uppercase bg-gray-700 hover:bg-gray-900"
+                        v-for="key1 in keys1" @click.prevent="disp(key1)">
+                        <img :src="`/remove/${key1}.png`" alt="" class="w-full h-full">
+                        <span class="absolute bottom-0 right-1 text-white font-semibold text-lg">{{ key1 }}</span>
+                    </button>
+                    <button
+                        class="cardImages h-16 min-w-[100px] m-2 text-white rounded-lg overflow-hidden outline-none text-uppercase bg-purple-500 hover:bg-purple-700 font-semibold"
+                        @click.prevent="borrarUltimoCaracter">
+                        Borrar
+                    </button>
+                </div>
+                <div class="keys flex justify-center">
+                    <button :id="key2"
+                        class="cardImages relative h-16 min-w-[70px] m-2 rounded-lg overflow-hidden outline-none text-uppercase bg-gray-700 hover:bg-gray-900"
+                        v-for="key2 in keys2" @click.prevent="disp(key2)">
+                        <img :src="`/remove/${key2}.png`" alt="" class="w-full h-full">
+                        <span class="absolute bottom-0 right-1 text-white font-semibold text-lg">{{ key2 }}</span>
+                    </button>
+                </div>
+                <div class="keys flex justify-center">
+                    <button :id="key3"
+                        class="cardImages relative h-16 min-w-[70px] m-2 rounded-lg overflow-hidden outline-none text-uppercase bg-gray-700 hover:bg-gray-900"
+                        v-for="key3 in keys3" @click.prevent="disp(key3)">
+                        <img :src="`/remove/${key3}.png`" alt="" class="w-full h-full">
+                        <span class="absolute bottom-0 right-1 text-white font-semibold text-lg">{{ key3 }}</span>
+                    </button>
+                    <button
+                        class="cardImages h-16 min-w-[150px] m-2 text-white rounded-lg overflow-hidden outline-none text-uppercase bg-red-500 hover:bg-red-700 font-semibold"
+                        @click.prevent="limpiar()">
+                        <i class="fa-solid fa-trash text-white"></i>
+                        Limpiar
+                    </button>
+                </div>
+                <div class="keys flex justify-center">
+                    <button id="espacio"
+                        class="cardImages h-16 min-w-[450px] m-2 text-white rounded-lg overflow-hidden outline-none text-uppercase bg-blue-500 hover:bg-blue-700 font-semibold"
+                        @click.prevent="disp(' ')">
+                        Espacio
+                    </button>
+                </div>
+            </div>
+        </transition>
     </div>
 </template>
 <script>
@@ -71,6 +85,7 @@ export default {
             keys3: ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
             text: '',
             lineas: [],
+            showTeclas: true
         };
     },
     mounted() {
@@ -90,7 +105,9 @@ export default {
             const keyCode = event.keyCode;
             if (keyCode === 32) {
                 // Espacio
-                this.letters.push(" ");
+                const key = " ";
+                this.letters.push(key);
+                this.animateButton(key)
                 event.preventDefault();
                 document.body.classList.add('no-scroll');
             } else if (keyCode === 8) {
@@ -101,6 +118,7 @@ export default {
                 // Letras y numeros
                 const key = event.key.toLowerCase();
                 this.letters.push(key);
+                this.animateButton(key)
             }
 
             this.lineas = this.dividirCadena(this.letters.join(''));
@@ -126,14 +144,6 @@ export default {
             grupos.push(grupoActual);
             return grupos;
         },
-        cortarPalabra(palabra) {
-            var grupos = [];
-            while (palabra.length > 0) {
-                grupos.push(palabra.substring(0, 15));
-                palabra = palabra.substring(15);
-            }
-            return grupos;
-        },
         handleKeyUp(event) {
             const keyCode = event.keyCode;
             if (keyCode === 32) {
@@ -141,8 +151,23 @@ export default {
             }
         },
         disp(letter) {
+            this.$nextTick(() => {
+                const container = this.$refs.imageContainer;
+                container.scrollTop = container.scrollHeight;
+            });
             this.letters.push(letter);
             this.lineas = this.dividirCadena(this.letters.join(''));
+            this.animateButton(letter)
+        },
+        animateButton(character) {
+            if (character === ' ') {
+                character = 'espacio'
+            }
+            let button = document.getElementById(character);
+            button.classList.add('animate__animated', 'animate__shakeY');
+            setTimeout(() => {
+                button.classList.remove('animate__animated', 'animate__shakeY');
+            }, 400);
         },
         getImagePath(character) {
             if (character == ' ') {
@@ -175,5 +200,14 @@ button:active {
 
 .no-scroll {
     overflow: hidden;
+}
+
+.cardImages {
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.08),
+        -3px -2px 3px rgba(255, 255, 255, 0.2),
+        2px 2px 2px rgba(0, 0, 0, 0.08) inset;
 }
 </style>
