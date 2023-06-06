@@ -7,7 +7,7 @@
                 <div class="overflow-y-scroll max-h-full">
                     <div class="grid grid-cols-2 gap-x-4 gap-y-2 h-full">
                         <div @click.prevent="showItem(dato)" v-for="(dato, index) in datosCategoria.datos" :key="dato.id"
-                            class="p-4 h-full mb-2 border-2 border-gray-200 rounded-lg cursor-pointer shadow-sm text-lg"
+                            class="p-4 h-full mb-2  rounded-lg cursor-pointer shadow-md text-lg"
                             :class="[item.name === dato.name ? 'text-white bg-turquesa-500' : 'text-gray-500 bg-white']">
                             <p>{{ (index + 1) }}. {{ dato.name }}</p>
                         </div>
@@ -74,7 +74,7 @@ export default {
         return {
             categoria: null,
             item: {},
-            letras: ["A", "B", "C", "D"],
+            letras: ["A", "B", "C", "D", "E"],
             size2: ["A", "B", "A", "B"],
         };
     },
