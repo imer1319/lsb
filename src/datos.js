@@ -334,6 +334,7 @@ export const datos = [
   { name: 'Verdad', icon: ['VERDAD.jpg'], categoria: 21 },
   { name: 'Mentira', icon: ['MENTIRA.jpg'], categoria: 21 },
   { name: 'Barato', icon: ['BARATO.jpg'], categoria: 21 },
+  { name: 'Caro', icon: ['CARO.jpg'], categoria: 21 },
   // Verbos 2
   { name: 'Tener', icon: ['TENER.jpg'], categoria: 22 },
   { name: 'Olvidar', icon: ['OLVIDAR.jpg'], categoria: 22 },
