@@ -32,7 +32,7 @@
 							class="absolute top-2 right-2 bg-turquesa-500 h-10 w-10 flex items-center justify-center rounded-full text-lg text-gray-50 font-semibold">
 							<span>{{ letras[imagenIndex] }}</span>
 						</div>
-						<img class="w-full shadow-md" :src="imagen" :alt="palabra.name" />
+						<img class="w-full shadow-md" :src="rutaImage(palabra.categoria) + imagen" :alt="palabra.name" />
 						<div class="text-center text-turquesa-700 py-2 font-bold">
 							<span>{{ palabra.name }}</span>
 						</div>
@@ -59,7 +59,7 @@ export default {
 			searchResults: [],
 			currentRows: 1,
 			showingTextarea: false,
-			initialHeight: '53px'
+			initialHeight: '53px',
 		};
 	},
 	watch: {
@@ -83,6 +83,17 @@ export default {
 		});
 	},
 	methods: {
+		rutaImage(categoria) {
+			if (categoria < 21) {
+				return '/modulo_1/'
+			} else if (this.categoria > 20 && this.categoria < 42) {
+				return '/modulo_2/'
+			} else if (this.categoria > 41 && this.categoria < 60) {
+				return '/modulo_3/'
+			} else {
+				return '/modulo_4/'
+			}
+		},
 		obtenerSugerencias() {
 			const palabrasBusqueda = this.busqueda.toLowerCase().split(" ");
 			const ultimaPalabra = palabrasBusqueda[palabrasBusqueda.length - 1];
@@ -111,31 +122,42 @@ export default {
 			for (let i = 0; i < palabrasBusqueda.length; i++) {
 				let palabraActual = palabrasBusqueda[i];
 				let siguientePalabra = palabrasBusqueda[i + 1];
+				let siguienteSiguientePalabra = palabrasBusqueda[i + 2];
+				let siguienteSiguienteSiguientePalabra = palabrasBusqueda[i + 3];
 
-				let encontradoCompuesto = this.datos.find((item) => {
-					if (
-						item.name.toLowerCase() ===
-						palabraActual + " " + siguientePalabra
-					) {
-						return true;
-					}
-				});
-
-				if (encontradoCompuesto) {
-					this.palabras.push(encontradoCompuesto);
-					i++;
-				} else {
-					let siguienteSiguientePalabra = palabrasBusqueda[i + 2];
-					let encontradoCompuesto3 = this.datos.find((item) => {
+				let encontradoCompuesto4 = this.datos.find(item => {
+					for (const sinonimo of item.sinonimos) {
 						if (
-							item.name.toLowerCase() ===
+							sinonimo.toLowerCase() ===
 							palabraActual +
 							" " +
 							siguientePalabra +
 							" " +
-							siguienteSiguientePalabra
+							siguienteSiguientePalabra +
+							" " +
+							siguienteSiguienteSiguientePalabra
 						) {
 							return true;
+						}
+					}
+				});
+
+				if (encontradoCompuesto4) {
+					this.palabras.push(encontradoCompuesto4);
+					i += 3;
+				} else {
+					let encontradoCompuesto3 = this.datos.find(item => {
+						for (const sinonimo of item.sinonimos) {
+							if (
+								sinonimo.toLowerCase() ===
+								palabraActual +
+								" " +
+								siguientePalabra +
+								" " +
+								siguienteSiguientePalabra
+							) {
+								return true;
+							}
 						}
 					});
 
@@ -143,16 +165,27 @@ export default {
 						this.palabras.push(encontradoCompuesto3);
 						i += 2;
 					} else {
-						let encontradoIndividual = this.datos.find((item) => {
-							if (item.name.toLowerCase() === palabraActual) {
-								return true;
-							}
+						let encontradoCompuesto2 = this.datos.find(item => {
+							return item.sinonimos.some(sinonimo => {
+								return sinonimo.toLowerCase() === palabraActual + " " + siguientePalabra;
+							});
 						});
-
-						if (encontradoIndividual) {
-							this.palabras.push(encontradoIndividual);
+						if (encontradoCompuesto2) {
+							this.palabras.push(encontradoCompuesto2);
+							i += 1;
 						} else {
-							console.log("no encontrado", palabraActual);
+							let encontradoIndividual = this.datos.find((item) => {
+								return item.sinonimos.find(sinonimo => {
+									if (sinonimo.toLowerCase() === palabraActual) {
+										return true;
+									}
+								})
+							});
+							if (encontradoIndividual) {
+								this.palabras.push(encontradoIndividual);
+							} else {
+								console.log("no encontrado", palabraActual);
+							}
 						}
 					}
 				}
@@ -190,17 +223,6 @@ export default {
 			this.busqueda = ''
 			this.palabras = []
 		},
-		// rutaImage() {
-		// 	if (this.categoria < 21) {
-		// 		return '/modulo_1/'
-		// 	} else if (this.categoria > 20 && this.categoria < 42) {
-		// 		return '/modulo_2/'
-		// 	} else if (this.categoria > 41 && this.categoria < 51) {
-		// 		return '/modulo_3/'
-		// 	} else {
-		// 		return '/modulo_4/'
-		// 	}
-		// },
 	},
 };
 </script>

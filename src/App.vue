@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-screen antialiased text-gray-900 bg-gray-800 dark:bg-dark dark:text-light">
+  <div class="flex h-screen antialiased text-gray-900 bg-gray-100 dark:bg-dark dark:text-light">
     <!-- Sidebar -->
     <navigation></navigation>
 
