@@ -1,6 +1,8 @@
 <template>
 	<div class="flex items-center">
 		<div class="z-10 mx-auto">
+			<span class="block text-sm text-gray-600 mb-1">Presione <span class="font-medium">enter</span> para
+				buscar</span>
 			<div @click="showTextarea" class="relative flex items-center">
 				<i class="fa-solid fa-magnifying-glass absolute left-4 top-5 text-gray-500"></i>
 				<textarea ref="myTextarea" type="text" :rows="currentRows"
@@ -14,17 +16,22 @@
 				</button>
 			</div>
 			<ul v-if="busqueda.length >= 2 && mostrarSugerencias"
-				class="sugerencias bg-white border border-gray-100 w-full">
+				class="sugerencias bg-white border border-gray-100 w-full h-full">
 				<li v-for="(sugerencia, index) in sugerencias" :key="sugerencia"
 					class="pl-4 pr-2 py-1 border-b-1 border-blue-100 relative cursor-pointer hover:bg-blue-50 hover:text-blue-900"
 					:class="{ 'bg-blue-50': index === indiceSugerenciaSeleccionada }"
 					@mousedown="autocompletarPalabra(index)">
-					<i class="fa-solid fa-magnifying-glass mr-4"></i>
-					<b>{{ sugerencia.name }}</b>
+					<div class="flex justify-between items-center">
+						<div>
+							<i class="fa-solid fa-magnifying-glass mr-4"></i>
+							<b>{{ sugerencia.item.name }}</b>
+						</div>
+						<div>{{ sugerencia.item.categoria }}</div>
+					</div>
 				</li>
 			</ul>
 		</div>
-		<div class="grid grid-cols-4 md:grid-cols-6 gap-8 absolute top-36 px-4 pb-8">
+		<div class="grid grid-cols-4 md:grid-cols-6 gap-8 absolute top-40 px-4 pb-8">
 			<template v-for="(palabra, index) in palabras" :key="index">
 				<template v-for="(imagen, imagenIndex) in palabra.icon" :key="imagenIndex">
 					<div class="cardImage max-w-lg rounded-lg overflow-hidden shadow-lg bg-gray-200 pb-1 relative">
@@ -45,6 +52,7 @@
 
 <script>
 import { datos } from "../datos.js";
+import Fuse from 'fuse.js';
 
 export default {
 	data() {
@@ -86,9 +94,9 @@ export default {
 		rutaImage(categoria) {
 			if (categoria < 21) {
 				return '/modulo_1/'
-			} else if (this.categoria > 20 && this.categoria < 42) {
+			} else if (categoria > 20 && categoria < 42) {
 				return '/modulo_2/'
-			} else if (this.categoria > 41 && this.categoria < 60) {
+			} else if (categoria > 41 && categoria < 60) {
 				return '/modulo_3/'
 			} else {
 				return '/modulo_4/'
@@ -97,10 +105,12 @@ export default {
 		obtenerSugerencias() {
 			const palabrasBusqueda = this.busqueda.toLowerCase().split(" ");
 			const ultimaPalabra = palabrasBusqueda[palabrasBusqueda.length - 1];
-
-			this.sugerencias = this.datos
-				.filter((item) => item.name.toLowerCase().includes(ultimaPalabra))
-				.slice(0, 4);
+			const fuse = new Fuse(datos, {
+				keys: ['sinonimos'],
+				includeScore: true,
+				threshold: 0.2
+			});
+			this.sugerencias = fuse.search(ultimaPalabra);
 		},
 		autocompletarPalabra(index) {
 			this.palabras.push(this.sugerencias[index]);
@@ -118,14 +128,13 @@ export default {
 			}
 			this.palabras = [];
 			const palabrasBusqueda = this.busqueda.trim().toLowerCase().split(" ");
-
 			for (let i = 0; i < palabrasBusqueda.length; i++) {
 				let palabraActual = palabrasBusqueda[i];
 				let siguientePalabra = palabrasBusqueda[i + 1];
 				let siguienteSiguientePalabra = palabrasBusqueda[i + 2];
 				let siguienteSiguienteSiguientePalabra = palabrasBusqueda[i + 3];
 
-				let encontradoCompuesto4 = this.datos.find(item => {
+				let encontradoCompuesto4 = this.datos.forEach(item => {
 					for (const sinonimo of item.sinonimos) {
 						if (
 							sinonimo.toLowerCase() ===
@@ -166,10 +175,11 @@ export default {
 						i += 2;
 					} else {
 						let encontradoCompuesto2 = this.datos.find(item => {
-							return item.sinonimos.some(sinonimo => {
+							return item.sinonimos.find(sinonimo => {
 								return sinonimo.toLowerCase() === palabraActual + " " + siguientePalabra;
 							});
 						});
+
 						if (encontradoCompuesto2) {
 							this.palabras.push(encontradoCompuesto2);
 							i += 1;
