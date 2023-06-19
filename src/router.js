@@ -4,6 +4,7 @@ import Search from './views/Search.vue';
 import Teclado from './views/Teclado.vue';
 import Modulos from './views/Modulos.vue';
 import Modulo from './views/Modulo.vue';
+import Juego from './views/Juego.vue';
 
 const routes = [
   {
@@ -30,6 +31,12 @@ const routes = [
     path: '/modulos/:id',
     name: 'Modulo',
     component: Modulo,
+    props: true
+  },
+  {
+    path: '/juego/:id',
+    name: 'Juego',
+    component: Juego,
     props: true
   },
 ];
