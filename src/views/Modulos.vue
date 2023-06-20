@@ -36,19 +36,19 @@
               <p class="text-lg">
                 Modulo:
                 <span class="text-lg font-semibold capitalize">
-                  {{ categoria.modulo }}
+                  {{ item.modulo }}
                 </span>
               </p>
               <p class="text-lg">
                 Categoria:
                 <span class="text-lg font-semibold capitalize">
-                  {{ categoria.name }}
+                  {{ item.categoryName }}
                 </span>
               </p>
             </div>
             <div class="pb-4 px-6 flex justify-end">
               <router-link
-                :to="{ name: 'Modulo', params: { id: categoria.id } }"
+                :to="{ name: 'Modulo', params: { id: item.categoria } }"
                 class="p-4 py-2 bg-turquesa-500 rounded-md text-white mr-4"
                 >Encontrar</router-link
               >
@@ -101,9 +101,8 @@
 </template>
 <script>
 import Modal from "../components/Modal.vue";
-import { datosCategorias, obtenerCategoriaDeDato } from "../datos";
+import { datosCategorias, obtenerCategoriaDeDato, datos} from "../datos";
 import Fuse from "fuse.js";
-import items from "../items.json";
 export default {
   components: {
     Modal,
@@ -142,14 +141,11 @@ export default {
         },
       ];
     },
-    categoria() {
-      return obtenerCategoriaDeDato(this.item);
-    },
   },
   methods: {
     openModal() {
       try {
-        const fuse = new Fuse(items.datos, {
+        const fuse = new Fuse(datos, {
           keys: ["sinonimos"],
           threshold: 0.1,
           includeScore: true,

@@ -26,7 +26,7 @@
 							<i class="fa-solid fa-magnifying-glass mr-4"></i>
 							<b>{{ sugerencia.item.name }}</b>
 						</div>
-						<div>{{ sugerencia.item.categoria }}</div>
+						<div class="text-gray-500">{{ sugerencia.item.categoryName }}</div>
 					</div>
 				</li>
 			</ul>
