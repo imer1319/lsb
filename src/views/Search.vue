@@ -88,7 +88,6 @@
 
 <script>
 import { datos } from "../datos.js";
-import Fuse from "fuse.js";
 
 export default {
   data() {

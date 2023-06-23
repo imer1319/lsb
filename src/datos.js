@@ -900,7 +900,7 @@ export const datos = [
   { name: 'Tigre', icon: ['TIGRE.jpg'], categoria: 54, categoryName: 'Animales 2', sinonimos: ['Tigre'], modulo: 3 },
   { name: 'Oso panda', icon: ['OSO_PANDA_A.jpg', 'OSO_PANDA_B.jpg', 'OSO_PANDA_C.jpg'], categoria: 54, categoryName: 'Animales 2', sinonimos: ['Oso panda'], modulo: 3 },
   { name: 'Ciervo', icon: ['CIERVO.jpg'], categoria: 54, categoryName: 'Animales 2', sinonimos: ['Ciervo'], modulo: 3 },
-  { name: 'Pingüino', icon: ['PINGUINO.jpg'], categoria: 54, categoryName: 'Animales 2', sinonimos: ['Pingüino'], modulo: 3 },
+  { name: 'Pingüino', icon: ['PINGUINO.jpg'], categoria: 54, categoryName: 'Animales 2', sinonimos: ['Pinguino'], modulo: 3 },
   { name: 'Cucaracha', icon: ['CUCARACHA.jpg'], categoria: 54, categoryName: 'Animales 2', sinonimos: ['Cucaracha'], modulo: 3 },
   { name: 'Águila', icon: ['AGUILA_A.jpg', 'AGUILA_B.jpg', 'AGUILA_C.jpg'], categoria: 54, categoryName: 'Animales 2', sinonimos: ['Aguila'], modulo: 3 },
   { name: 'Camello', icon: ['CAMELLO_A.jpg', 'CAMELLO_B.jpg'], categoria: 54, categoryName: 'Animales 2', sinonimos: ['Camello'], modulo: 3 },

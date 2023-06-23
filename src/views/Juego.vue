@@ -69,9 +69,68 @@
       <Modal
         :showModal="showModal"
         @modal-cerrado="resetearModal"
-        modalSize="w-1/2"
+        modalSize="w-2/3"
       >
-        <Cronometro :tiempo="20" :pause="pause" />
+        <Cronometro
+          :tiempo="2"
+          :pause="pause"
+          @cronometro-stop="showResponse = true"
+        />
+        <div
+          class="text-8xl text-center"
+          style="font-family: 'lsb', sans-serif"
+        >
+          {{ itemSelected }}
+        </div>
+        <transition name="modal">
+          <template v-if="showResponse">
+            <div class="text-pink-500 font-bold text-3xl text-center mt-8">
+              <h1>Respuesta</h1>
+              <div class="grid grid-cols-2 gap-4 mt-8">
+                <template
+                  v-for="(imagen, imagenIndex) in item.icon"
+                  :key="imagenIndex"
+                >
+                  <div
+                    class="cardImage rounded-lg shadow-lg bg-gray-200 pb-1 p-2 relative mx-auto"
+                    :class="[
+                      item.icon.length > 1
+                        ? 'col-span-1'
+                        : 'col-span-2 mx-auto',
+                    ]"
+                  >
+                    <template v-if="item.icon.length > 1">
+                      <template v-if="item.isOption">
+                        <template v-if="item.size > 1">
+                          <div
+                            class="absolute top-4 right-4 bg-turquesa-500 h-10 w-10 flex items-center justify-center rounded-full text-lg text-gray-50 font-semibold"
+                          >
+                            <span>{{ size2[imagenIndex] }}</span>
+                          </div>
+                        </template>
+                      </template>
+                      <template v-else>
+                        <div
+                          class="absolute top-4 right-4 bg-turquesa-500 h-10 w-10 flex items-center justify-center rounded-full text-lg text-gray-50 font-semibold"
+                        >
+                          <span>{{ letras[imagenIndex] }}</span>
+                        </div>
+                      </template>
+                    </template>
+                    <img
+                      class="w-full shadow-md"
+                      :src="rutaImage + imagen"
+                      :alt="item.name"
+                    />
+                    <div class="text-center text-turquesa-700 py-2 font-bold">
+                      <span>{{ item.name }}</span>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </template>
+        </transition>
       </Modal>
     </transition>
   </div>
@@ -89,19 +148,22 @@ export default {
     this.categoria = this.$route.params.id;
   },
   mounted() {
-    this.segmenSelect();
+    this.segmenSelect()
     this.createWinwheel();
   },
   data() {
     return {
+      letras: ["A", "B", "C", "D", "E"],
+      showResponse: false,
       showModal: false,
+      itemSelected: null,
       wheelSpinning: false,
       wheelPower: 0,
       theWheel: null,
       categoria: null,
       btnPlay: false,
       btnReset: true,
-      pause: false,
+      pause: true,
       segmentos: [],
       colores: [
         "#FBA51A",
@@ -117,6 +179,7 @@ export default {
   },
   methods: {
     resetearModal() {
+      this.showResponse = false;
       this.showModal = false;
     },
     createWinwheel() {
@@ -124,7 +187,7 @@ export default {
         canvasId: "canvas",
         numSegments: this.numSegments,
         outerRadius: 215,
-        textFontSize: 20,
+        textFontSize: 28,
         responsive: true,
         segments: this.segmentos,
         animation: {
@@ -182,8 +245,29 @@ export default {
       this.btnReset = true;
       this.wheelSpinning = false;
 
-      this.segmenSelect();
+      this.createWinwheel();
       return false;
+    },
+    reemplazarTildes(texto) {
+      var mapaTildes = {
+        á: "a",
+        é: "e",
+        í: "i",
+        ó: "o",
+        ú: "u",
+        Á: "A",
+        É: "E",
+        Í: "I",
+        Ó: "O",
+        Ú: "U",
+        ü: "u",
+        Ü: "U",
+        "·": ".",
+      };
+
+      return texto.replace(/[áéíóúÁÉÍÓÚüÜ·]/g, function (match) {
+        return mapaTildes[match];
+      });
     },
     alertPrize(indicatedSegment) {
       this.btnReset = false;
@@ -195,7 +279,9 @@ export default {
       });
       if (premioGanado) {
         this.showModal = true;
-        alert("You have won " + indicatedSegment.text);
+        this.item = premioGanado;
+        this.pause = false;
+        this.itemSelected = this.reemplazarTildes(indicatedSegment.text);
       } else {
         alert("No prize won.");
       }
@@ -218,11 +304,11 @@ export default {
       );
       this.segmentos = nombresAleatorios.map((nombre, index) => {
         return {
+          textFontFamily: "lsb",
           fillStyle: this.colores[index],
           text: nombre.split("(")[0].split("/")[0].replace(" ", "\n"),
         };
       });
-      this.createWinwheel();
     },
   },
   computed: {
@@ -248,3 +334,14 @@ export default {
   },
 };
 </script>
+<style scoped>
+.cardImage {
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background-color: transparent;
+
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.08),
+    -3px -2px 3px rgba(255, 255, 255, 0.2),
+    2px 2px 2px rgba(0, 0, 0, 0.08) inset;
+}
+</style>
