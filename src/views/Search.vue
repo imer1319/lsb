@@ -92,7 +92,8 @@ import { datos } from "../datos.js";
 export default {
   data() {
     return {
-      letras: ["A", "B", "C","D", "E"],
+      letras: ["A", "B", "C", "D", "E"],
+      size2: ["A", "B", "A", "B"],
       datos: datos,
       busqueda: "",
       sugerencias: [],

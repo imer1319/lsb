@@ -76,10 +76,7 @@
           :pause="pause"
           @cronometro-stop="showResponse = true"
         />
-        <div
-          class="text-8xl text-center"
-          style="font-family: 'lsb', sans-serif"
-        >
+        <div class="text-8xl text-center" style="font-family: 'ab', sans-serif">
           {{ itemSelected }}
         </div>
         <transition name="modal">
@@ -118,7 +115,7 @@
                       </template>
                     </template>
                     <img
-                      class="w-full shadow-md"
+                      class="w-[15rem] shadow-md"
                       :src="rutaImage + imagen"
                       :alt="item.name"
                     />
@@ -148,12 +145,13 @@ export default {
     this.categoria = this.$route.params.id;
   },
   mounted() {
-    this.segmenSelect()
+    this.agregarSegmentos();
     this.createWinwheel();
   },
   data() {
     return {
       letras: ["A", "B", "C", "D", "E"],
+      size2: ["A", "B", "A", "B"],
       showResponse: false,
       showModal: false,
       itemSelected: null,
@@ -187,7 +185,7 @@ export default {
         canvasId: "canvas",
         numSegments: this.numSegments,
         outerRadius: 215,
-        textFontSize: 28,
+        textFontSize: 32,
         responsive: true,
         segments: this.segmentos,
         animation: {
@@ -244,8 +242,7 @@ export default {
       this.btnPlay = false;
       this.btnReset = true;
       this.wheelSpinning = false;
-
-      this.createWinwheel();
+      this.agregarSegmentos();
       return false;
     },
     reemplazarTildes(texto) {
@@ -273,8 +270,9 @@ export default {
       this.btnReset = false;
       const premioGanado = this.datosCategoria.datos.find((dato) => {
         return (
-          dato.name.split("(")[0].split("/")[0].replace(" ", "\n") ===
-          indicatedSegment.text
+          this.reemplazarTildes(
+            dato.name.split("(")[0].split("/")[0].replace(" ", "\n")
+          ) === indicatedSegment.text
         );
       });
       if (premioGanado) {
@@ -297,18 +295,21 @@ export default {
       }
       return nombresAleatorios;
     },
-    segmenSelect() {
+    agregarSegmentos() {
       const nombresAleatorios = this.obtenerNombresAleatorios(
         this.datosCategoria.datos,
         this.numSegments
       );
       this.segmentos = nombresAleatorios.map((nombre, index) => {
         return {
-          textFontFamily: "lsb",
+          textFontFamily: "ab",
           fillStyle: this.colores[index],
-          text: nombre.split("(")[0].split("/")[0].replace(" ", "\n"),
+          text: this.reemplazarTildes(
+            nombre.split("(")[0].split("/")[0].replace(" ", "\n")
+          ),
         };
       });
+      this.createWinwheel();
     },
   },
   computed: {

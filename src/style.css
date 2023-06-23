@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'lsb';
-  src: url('/fonts/LSB.ttf') format('truetype');
-}
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
