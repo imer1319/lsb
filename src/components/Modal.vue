@@ -1,26 +1,48 @@
 <template>
-    <div v-if="isOpen" class="fixed inset-0 flex items-center justify-center">
-        <div class="modal-overlay absolute inset-0 bg-gray-500 opacity-75"></div>
-        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
-            <div class="modal-content py-4 text-left px-6">
-                <!-- Contenido del modal -->
-                <slot></slot>
-            </div>
-            <div class="modal-footer py-4 px-6">
-                <!-- Botón para cerrar el modal -->
-                <button @click="isOpen = false" class="btn">Cerrar</button>
-            </div>
-        </div>
+  <div
+    v-if="showModal"
+    class="fixed inset-0 flex items-center justify-center z-30"
+    @click="cerrarModal"
+  >
+    <div class="modal-overlay absolute inset-0 bg-gray-300 opacity-60"></div>
+    <div
+      class="relative modal-container bg-white mx-auto rounded-xl shadow-lg z-50 overflow-y-auto"
+      :class="[modalSize ? modalSize : 'w-1/2']"
+      @click.stop
+    >
+      <div
+        @click="cerrarModal"
+        class="absolute right-2 top-2 text-2xl bg-gray-500 text-white rounded-full w-8 h-8 text-center cursor-pointer"
+      >
+        x
+      </div>
+      <div class="modal-content py-4 text-left px-6">
+        <slot></slot>
+      </div>
     </div>
+  </div>
 </template>
-  
+
 <script>
 export default {
-    name: 'Modal',
+  props: {
+    showModal: {
+      type: Boolean,
+      default: false,
+    },
+    modalSize: {
+      type: String,
+      default: "w-1/2",
+    },
+  },
+  methods: {
+    cerrarModal() {
+      this.$emit("modal-cerrado");
+    },
+  },
 };
 </script>
-  
+
 <style scoped>
 /* Estilos personalizados para el modal */
 </style>
-  

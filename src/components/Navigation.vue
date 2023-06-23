@@ -7,7 +7,7 @@
     >
       <!-- Logo -->
       <div class="flex-shrink-0 py-4">
-        <a href="#">
+        <a href="#" class="outline-none">
           <img
             class="w-10 h-auto"
             src="https://raw.githubusercontent.com/kamona-ui/dashboard-alpine/main/public/assets/images/logo.png"
@@ -21,7 +21,7 @@
           v-for="ruta in rutas"
           :key="ruta"
           :to="ruta.route"
-          class="group relative w-auto p-1 rounded-lg shadow-md hover:bg-turquesa-700 hover:text-white"
+          class="group outline-none relative w-auto p-1 rounded-lg shadow-md hover:bg-turquesa-700 hover:text-white"
           :class="[
             route.path === ruta.route
               ? 'text-white bg-turquesa-500'

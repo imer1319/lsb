@@ -2,7 +2,7 @@
   <div class="flex flex-col items-center justify-center">
     <div class="mb-12">
       <span class="block text-sm text-gray-600 mb-1"
-        >Presione <span class="font-medium">enter</span> para buscar</span
+        >Presione <span class="font-semibold">enter</span> para buscar</span
       >
       <input
         type="text"
@@ -15,54 +15,34 @@
       <span v-if="error" class="text-red-600 block text-center text-sm mt-1"
         >{{ message }} <span class="font-bold">{{ busqueda }}</span></span
       >
-      <!-- Modal -->
       <transition name="modal">
-        <div
-          v-if="showModal"
-          class="fixed inset-0 flex items-center justify-center z-30"
-          @click="closeModal"
-        >
-          <div
-            class="modal-overlay absolute inset-0 bg-gray-300 opacity-60"
-          ></div>
-          <div
-            class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded-xl shadow-lg z-50 overflow-y-auto"
-            @click.stop
-          >
-            <div class="modal-content py-4 text-left px-6">
-              <h4 class="text-2xl text-center font-bold mb-4">
-                {{ item.name }}
-              </h4>
-              <p class="text-lg">
-                Modulo:
-                <span class="text-lg font-semibold capitalize">
-                  {{ item.modulo }}
-                </span>
-              </p>
-              <p class="text-lg">
-                Categoria:
-                <span class="text-lg font-semibold capitalize">
-                  {{ item.categoryName }}
-                </span>
-              </p>
-            </div>
-            <div class="pb-4 px-6 flex justify-end">
-              <router-link
-                :to="{ name: 'Modulo', params: { id: item.categoria } }"
-                class="p-4 py-2 bg-turquesa-500 rounded-md text-white mr-4"
-                >Encontrar</router-link
-              >
-              <button
-                @click="closeModal"
-                class="p-4 py-2 bg-gray-400 rounded-md text-black"
-              >
-                Cerrar
-              </button>
-            </div>
+        <Modal :showModal="showModal" @modal-cerrado="resetearModal" modalSize="w-1/3">
+          <div>
+            <h4 class="text-2xl text-center font-bold mb-4">
+              {{ item.name }}
+            </h4>
+            <p class="text-lg">
+              Modulo:
+              <span class="text-lg font-semibold capitalize">
+                {{ item.modulo }}
+              </span>
+            </p>
+            <p class="text-lg">
+              Categoria:
+              <span class="text-lg font-semibold capitalize">
+                {{ item.categoryName }}
+              </span>
+            </p>
           </div>
-        </div>
+          <div class="flex justify-end">
+            <router-link
+              :to="{ name: 'Modulo', params: { id: item.categoria } }"
+              class="p-4 py-2 bg-turquesa-500 rounded-md text-white mr-4"
+              >Encontrar</router-link
+            >
+          </div>
+        </Modal>
       </transition>
-      <!-- End modal -->
     </div>
     <div
       class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4"
@@ -71,14 +51,7 @@
         <div
           class="px-4 py-4 text-lg font-bold text-white flex items-center justify-center absolute rounded-lg shadow-lg bg-turquesa-500 left-4 -top-6"
         >
-          <!-- poner rutas a los juegos -->
-          <router-link
-            :to="{ name: 'Juego', params: { id: modulo.id } }"
-            class="hover:text-gray-100 capitalize"
-          >
-            <i class="fa-solid fa-puzzle-piece"></i>
-            {{ modulo.name }}
-          </router-link>
+          <span>{{ modulo.name }}</span>
         </div>
         <div
           class="bg-white py-6 px-6 rounded-3xl w-64 my-4 shadow-xl h-[320px] hover:h-[350px] overflow-hidden"
@@ -101,7 +74,7 @@
 </template>
 <script>
 import Modal from "../components/Modal.vue";
-import { datosCategorias, obtenerCategoriaDeDato, datos} from "../datos";
+import { datosCategorias, datos } from "../datos";
 import Fuse from "fuse.js";
 export default {
   components: {
@@ -143,6 +116,9 @@ export default {
     },
   },
   methods: {
+    resetearModal() {
+      this.showModal = false;
+    },
     openModal() {
       try {
         const fuse = new Fuse(datos, {
@@ -153,14 +129,12 @@ export default {
         const resultado = fuse.search(this.busqueda);
         this.item = resultado[0].item;
         this.showModal = true;
+        console.log(this.showModal);
         this.error = false;
       } catch (error) {
         this.error = true;
         this.message = "no encontrado";
       }
-    },
-    closeModal() {
-      this.showModal = false;
     },
   },
 };
