@@ -4,34 +4,6 @@
       <tr>
         <td>
           <div class="power_controls">
-            <br />
-            <br />
-            <table class="power" cellpadding="10" cellspacing="0">
-              <tr>
-                <th align="center">Poder</th>
-              </tr>
-              <tr>
-                <td
-                  width="78"
-                  align="center"
-                  id="pw3"
-                  @click.prevent="powerSelected(3)"
-                >
-                  Alto
-                </td>
-              </tr>
-              <tr>
-                <td align="center" id="pw2" @click.prevent="powerSelected(2)">
-                  Medio
-                </td>
-              </tr>
-              <tr>
-                <td align="center" id="pw1" @click.prevent="powerSelected(1)">
-                  Bajo
-                </td>
-              </tr>
-            </table>
-            <br />
             <button
               @click.prevent="startSpin()"
               id="spin_button"
@@ -72,7 +44,7 @@
         modalSize="w-2/3"
       >
         <Cronometro
-          :tiempo="2"
+          :tiempo="20"
           :pause="pause"
           @cronometro-stop="showResponse = true"
         />
@@ -185,7 +157,7 @@ export default {
         canvasId: "canvas",
         numSegments: this.numSegments,
         outerRadius: 215,
-        textFontSize: 32,
+        textFontSize: 20,
         responsive: true,
         segments: this.segmentos,
         animation: {
@@ -236,9 +208,6 @@ export default {
       this.theWheel.stopAnimation(false);
       this.theWheel.rotationAngle = 0;
       this.theWheel.draw();
-      document.getElementById("pw1").className = "";
-      document.getElementById("pw2").className = "";
-      document.getElementById("pw3").className = "";
       this.btnPlay = false;
       this.btnReset = true;
       this.wheelSpinning = false;

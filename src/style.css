@@ -21,6 +21,7 @@
   transform: translateY(800px);
   opacity: 0;
 }
+
 ::-webkit-scrollbar {
   background-color: #fff;
   width: 16px;
@@ -37,5 +38,24 @@
 }
 
 ::-webkit-scrollbar-button {
+  display:none;
+}
+
+.dark ::-webkit-scrollbar {
+  background-color: #1F2937;
+  width: 16px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background-color: #1F2937;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #babac0;
+  border-radius: 16px;
+  border: 4px solid #1F2937;
+}
+
+.dark ::-webkit-scrollbar-button {
   display:none;
 }

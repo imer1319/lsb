@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center justify-center">
     <div class="mb-12">
-      <span class="block text-sm text-gray-600 mb-1"
+      <span class="block text-sm text-gray-600 mb-1 dark:text-gray-200"
         >Presione <span class="font-semibold">enter</span> para buscar</span
       >
       <input
@@ -16,7 +16,7 @@
         >{{ message }} <span class="font-bold">{{ busqueda }}</span></span
       >
       <transition name="modal">
-        <Modal :showModal="showModal" @modal-cerrado="resetearModal" modalSize="w-1/3">
+        <Modal :showModal="showModal" @modal-cerrado="resetearModal" modalSize="w-3/5 lg:w-2/5">
           <div>
             <h4 class="text-2xl text-center font-bold mb-4">
               {{ item.name }}
@@ -54,7 +54,7 @@
           <span>{{ modulo.name }}</span>
         </div>
         <div
-          class="bg-white py-6 px-6 rounded-3xl w-64 my-4 shadow-xl h-[320px] hover:h-[350px] overflow-hidden"
+          class="bg-white dark:bg-gray-800 py-6 px-6 rounded-3xl w-64 my-4 shadow-xl h-[320px] hover:h-[350px] overflow-hidden"
         >
           <div class="hover:overflow-y-scroll h-full">
             <router-link

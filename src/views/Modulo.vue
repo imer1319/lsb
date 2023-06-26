@@ -1,9 +1,9 @@
 <template>
-  <div class="pb-8">
+  <div class="pb-8 pl-16">
     <div class="flex justify-between items-center pb-2">
       <router-link
         :to="{ name: 'Juego', params: { id: datosCategoria.category.id } }"
-        class="outline-none p-4 bg-white rounded-lg text-pink-700 font-bold text-xl shadow-md hover:text-white hover:bg-pink-700"
+        class="outline-none p-2 lg:p-4 bg-white rounded-lg text-pink-700 font-bold text-xl shadow-md hover:text-white hover:bg-pink-700"
       >
         <i class="fa-solid fa-puzzle-piece"></i>
         Juego de {{ datosCategoria.category.name }}
@@ -17,9 +17,9 @@
       <div></div>
     </div>
     <div class="grid grid-cols-2 grid-flow-col gap-4">
-      <div class="col-span-1 h-[400px] bg-gray-50 p-4 rounded-2xl shadow-sm">
+      <div class="col-span-1 h-[400px] bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl shadow-sm">
         <div class="overflow-y-scroll max-h-full">
-          <div class="grid grid-cols-2 gap-x-4 gap-y-2 h-full">
+          <div class="grid lg:grid-cols-2 gap-x-4 gap-y-2 h-full">
             <div
               @click.prevent="showItem(dato)"
               v-for="(dato, index) in datosCategoria.datos"
@@ -28,7 +28,7 @@
               :class="[
                 item.name === dato.name
                   ? 'text-white bg-turquesa-500'
-                  : 'text-gray-500 bg-white',
+                  : 'text-gray-500 bg-white dark:text-gray-50 dark:bg-gray-900',
               ]"
             >
               <p>{{ index + 1 }}. {{ dato.name }}</p>

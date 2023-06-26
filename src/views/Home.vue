@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Inicio</h1>
+        <img src="/lsb/foto.jpg" alt="imagen" class="w-full">
     </div>
 </template>
 <script>

@@ -1,7 +1,7 @@
 <template>
-  <div class="flex items-center">
+  <div class="flex justify-center">
     <div class="z-10 mx-auto">
-      <span class="block text-sm text-gray-600 mb-1"
+      <span class="block text-sm text-gray-600 mb-1 dark:text-gray-200"
         >Presione <span class="font-semibold">enter</span> para buscar</span
       >
       <div @click="showTextarea" class="relative flex items-center">
@@ -55,7 +55,7 @@
       </ul>
     </div>
     <div
-      class="grid grid-cols-4 md:grid-cols-6 gap-8 absolute top-40 pr-8 pb-8"
+      class="grid grid-cols-4 lg:grid-cols-6 gap-8 absolute top-40 pl-20 pr-4 pb-8"
     >
       <template v-for="(palabra, index) in palabras" :key="index">
         <template

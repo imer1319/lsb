@@ -1,17 +1,17 @@
 <template>
-  <div class="w-[1000px] mx-auto rounded-lg pb-12">
+  <div class="flex flex-col justify-center rounded-lg pb-12 pl-16 lg:pl-32">
     <div class="flex justify-center mb-2">
       <button
-        @click.prevent="showTeclas = !showTeclas"
+        @click.prevent="activeShowTeclas"
         class="px-3 py-2 bg-turquesa-500 hover:bg-turquesa-700 text-white rounded-md outline-none"
       >
         <i
-          :class="showTeclas ? 'fa-solid fa-eye' : 'fa-regular fa-eye-slash'"
+          :class="[showTeclas ? 'fa-solid fa-eye' : 'fa-regular fa-eye-slash']"
         ></i>
       </button>
     </div>
     <div
-      class="image-container mb-[20px] p-2 select-none overflow-hidden"
+      class="image-container w-full mb-[20px] p-2 select-none overflow-hidden dark:bg-gray-800 rounded-lg"
       :class="showTeclas ? 'h-[260px]' : 'h-[460px]'"
     >
       <div class="overflow-y-auto h-full" ref="imageContainer">
@@ -21,7 +21,7 @@
           :key="index"
         >
           <div
-            class="w-16 h-20 flex flex-wrap"
+            class="lg:w-16 lg:h-20 w-10 h-12 flex flex-wrap"
             v-for="image in linea"
             :key="image"
           >
@@ -35,7 +35,7 @@
         <div class="keys flex justify-center">
           <button
             :id="numero"
-            class="cardImages relative h-12 min-w-[60px] m-2 rounded-lg overflow-hidden outline-none text-uppercase bg-violet-800 hover:bg-violet-950"
+            class="cardImages relative lg:h-12 h-11 lg:w-16 w-12 m-2 rounded-lg overflow-hidden outline-none text-uppercase bg-violet-800 hover:bg-violet-950"
             v-for="numero in numeros"
             @click.prevent="disp(numero)"
           >
@@ -49,7 +49,7 @@
         <div class="keys flex justify-center">
           <button
             :id="key1"
-            class="cardImages relative h-12 min-w-[60px] m-2 rounded-lg overflow-hidden outline-none text-uppercase bg-blue-800 hover:bg-blue-950"
+            class="cardImages relative lg:h-12 h-11 lg:w-16 w-12 m-2 rounded-lg overflow-hidden outline-none text-uppercase bg-blue-800 hover:bg-blue-950"
             v-for="key1 in keys1"
             @click.prevent="disp(key1)"
           >
@@ -60,17 +60,17 @@
             >
           </button>
           <button
-            class="cardImages h-12 min-w-[100px] m-2 text-white rounded-lg overflow-hidden outline-none text-uppercase bg-pink-600 hover:bg-pink-800 font-semibold"
+            class="cardImages lg:h-12 h-11 lg:w-32 w-20 m-2 text-white rounded-lg overflow-hidden outline-none text-uppercase bg-pink-600 hover:bg-pink-800 font-semibold"
             @click.prevent="borrarUltimoCaracter"
           >
             <i class="fa-solid fa-delete-left text-white text-lg mr-1"></i>
-            Borrar
+            <span class="hidden lg:inline">Borrar</span>
           </button>
         </div>
         <div class="keys flex justify-center">
           <button
             :id="key2"
-            class="cardImages relative h-12 min-w-[60px] m-2 rounded-lg overflow-hidden outline-none text-uppercase bg-blue-800 hover:bg-blue-950"
+            class="cardImages relative lg:h-12 h-11 lg:w-16 w-12 m-2 rounded-lg overflow-hidden outline-none text-uppercase bg-blue-800 hover:bg-blue-950"
             v-for="key2 in keys2"
             @click.prevent="disp(key2)"
           >
@@ -84,7 +84,7 @@
         <div class="keys flex justify-center">
           <button
             :id="key3"
-            class="cardImages relative h-12 min-w-[60px] m-2 rounded-lg overflow-hidden outline-none text-uppercase bg-blue-800 hover:bg-blue-950"
+            class="cardImages relative lg:h-12 h-11 lg:w-16 w-12 m-2 rounded-lg overflow-hidden outline-none text-uppercase bg-blue-800 hover:bg-blue-950"
             v-for="key3 in keys3"
             @click.prevent="disp(key3)"
           >
@@ -95,17 +95,17 @@
             >
           </button>
           <button
-            class="cardImages h-12 min-w-[150px] m-2 text-white rounded-lg overflow-hidden outline-none text-uppercase bg-red-600 hover:bg-red-700 font-semibold"
+            class="cardImages h-11 w-24 lg:w-32 lg:h-12 m-2 text-white rounded-lg overflow-hidden outline-none text-uppercase bg-red-600 hover:bg-red-700 font-semibold"
             @click.prevent="limpiar()"
           >
             <i class="fa-solid fa-trash text-white mr-1"></i>
-            Limpiar
+            <span class="hidden lg:inline">Limpiar</span>
           </button>
         </div>
         <div class="keys flex justify-center">
           <button
             id="espacio"
-            class="cardImages h-12 min-w-[450px] m-2 text-white rounded-lg overflow-hidden outline-none text-uppercase bg-turquesa-500 hover:bg-turquesa-700 font-semibold"
+            class="cardImages h-11 w-[250px] lg:h-12 lg:w-[320px] m-2 text-white rounded-lg overflow-hidden outline-none text-uppercase bg-turquesa-500 hover:bg-turquesa-700 font-semibold"
             @click.prevent="disp(' ')"
           >
             Espacio
@@ -139,40 +139,42 @@ export default {
   },
   methods: {
     handleKeyDown(event) {
-      this.$nextTick(() => {
-        const container = this.$refs.imageContainer;
-        container.scrollTop = container.scrollHeight;
-      });
-      const keyCode = event.keyCode;
-      if (keyCode === 32) {
-        // Espacio
-        const key = " ";
-        if (this.letters[this.letters.length - 1] !== " ") {
-          this.letters.push(key);
+      if (this.showTeclas) {
+        this.$nextTick(() => {
+          const container = this.$refs.imageContainer;
+          container.scrollTop = container.scrollHeight;
+        });
+        const keyCode = event.keyCode;
+        if (keyCode === 32) {
+          // Espacio
+          const key = " ";
+          if (this.letters[this.letters.length - 1] !== " ") {
+            this.letters.push(key);
+          }
+          this.animateButton(key);
+          event.preventDefault();
+          document.body.classList.add("no-scroll");
+        } else if (keyCode === 8) {
+          // Borrar
+          event.preventDefault();
+          this.letters.pop();
         }
-        this.animateButton(key);
-        event.preventDefault();
-        document.body.classList.add("no-scroll");
-      } else if (keyCode === 8) {
-        // Borrar
-        event.preventDefault();
-        this.letters.pop();
-      }
-      if (keyCode === 13) {
-        // Enter
-        event.preventDefault();
-      } else if (
-        (keyCode >= 48 && keyCode <= 57) ||
-        (keyCode >= 65 && keyCode <= 90) ||
-        keyCode === 192
-      ) {
-        // Letras y numeros
-        const key = event.key.toLowerCase();
-        this.letters.push(key);
-        this.animateButton(key);
-      }
+        if (keyCode === 13) {
+          // Enter
+          event.preventDefault();
+        } else if (
+          (keyCode >= 48 && keyCode <= 57) ||
+          (keyCode >= 65 && keyCode <= 90) ||
+          keyCode === 192
+        ) {
+          // Letras y numeros
+          const key = event.key.toLowerCase();
+          this.letters.push(key);
+          this.animateButton(key);
+        }
 
-      this.lineas = this.dividirCadena(this.letters.join(""));
+        this.lineas = this.dividirCadena(this.letters.join(""));
+      }
     },
     dividirCadena(cadena) {
       const palabras = cadena.split(" ");
@@ -236,6 +238,9 @@ export default {
       this.lineas = [];
       this.letters = [];
     },
+    activeShowTeclas(){
+      this.showTeclas = !this.showTeclas
+    }
   },
 };
 </script>

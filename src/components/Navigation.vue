@@ -1,6 +1,6 @@
 <template>
   <div
-    class="z-20 bg-white fixed h-screen border-r-2 shadow-lg rounded-tr-3xl rounded-br-3xl"
+    class="z-20 bg-white dark:bg-gray-800 fixed h-screen shadow-lg rounded-tr-3xl rounded-br-3xl"
   >
     <nav
       class="flex flex-col items-center flex-shrink-0 w-16 py-4 bg-transparent"
@@ -10,8 +10,8 @@
         <a href="#" class="outline-none">
           <img
             class="w-10 h-auto"
-            src="https://raw.githubusercontent.com/kamona-ui/dashboard-alpine/main/public/assets/images/logo.png"
-            alt="K-UI"
+            src="/lsb/logo.ico"
+            alt="lsb"
           />
         </a>
       </div>
@@ -21,11 +21,11 @@
           v-for="ruta in rutas"
           :key="ruta"
           :to="ruta.route"
-          class="group outline-none relative w-auto p-1 rounded-lg shadow-md hover:bg-turquesa-700 hover:text-white"
+          class="group outline-none relative w-auto p-1 rounded-lg shadow-md hover:bg-turquesa-700 dark:hover:bg-turquesa-700 hover:text-white"
           :class="[
             route.path === ruta.route
               ? 'text-white bg-turquesa-500'
-              : 'text-gray-500 bg-white',
+              : 'text-gray-500 bg-white dark:bg-gray-950',
           ]"
         >
           <span class="flex items-center z-10 w-auto">
